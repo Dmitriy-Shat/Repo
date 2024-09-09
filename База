@@ -1,0 +1,37 @@
+class UrTube:
+  def __init__(self):
+    self.new_user = []
+    self.users_basa = []
+          
+  def __str__(self):
+    return str(self.new_user)
+    
+  def __str__(self):
+    return str(self.users_basa)
+    
+  def users(self):
+    self.users_basa.append(self.new_user)
+  
+  def register(self, nickname, password, age):
+      self.new_user.append(nickname)
+      self.new_user.append(password)
+      self.new_user.append(age)
+       
+k = 1
+while True:
+  choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
+  if choice == 2:
+    ur = [UrTube() for i in range(k)]
+    for i in range(k):
+      ur[i].register(nickname := input("Введите ник: "), password := input("Введите пароль: "), input("Введите возраст: "))
+      ur[i].users()
+      print(ur[i])
+      k += 1
+      continue
+  elif choice == 1:
+    ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
+    continue
+  elif choice == 3:
+    exit()
+  else:
+    print("Такого полбзователя нет.")
