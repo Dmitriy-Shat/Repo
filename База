@@ -8,26 +8,34 @@ class Video:
 class UrTube:
   
   def __init__(self):
-    self.video_basa = []
+    self.videos = []
     
   def __str__(self):
-    return str(self.video_basa)
+    return str(self.videos)
     
-  def add(self, *args):
-    self.video_basa.append(*args)
+  def add(self, *video):
+    new_video = []
+    new_video.append(video)
+    for i in new_video:
+      if i not in self.videos:
+        self.videos.append(video)
+        
     
-    
-    
-ur = UrTube()    
+ur = UrTube()
+ur1 = UrTube()
 
-vi0 = ["Адреналин", 10, True] 
+vid1 = ["Адреналин", 10, True]
+vid2 = ["Гарри Поттер", 14, False]
+vid3 = ["Глубина", 9, False]
+
 vi1 = Video("Дедпул", 12, True)
 vi2 = Video("Звездные войны", 15, False)
 vi3 = Video("Неудержимые", 14, False)
  
-ur.add(vi0) 
-ur.add(vi1)
+ur.add(vid1, vid2, vid3)
+ur1.add(vi1, vi2, vi3)
 print(ur)
+print(ur1)
   
     
     
