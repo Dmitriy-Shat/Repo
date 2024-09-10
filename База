@@ -1,26 +1,65 @@
+
 class Video:
-  
-  def __init__(self, title, duration, adult_mode):
-    self.title = title
-    self.duration = duration
-    self.adult_mode = adult_mode
-    
+
+    def __init__(self, title, duration, adult_mode):
+        self.title = title
+        self.duration = duration
+        self.adult_mode = adult_mode
+
+    def __repr__(self):
+        return f"{self.title}, {self.duration}, {self.adult_mode}"
+
+
 class UrTube:
-  
-  def __init__(self):
-    self.videos = []
-    
-  def __str__(self):
-    return str(self.videos)
-    
-  def add(self, *video):
-    new_video = []
-    new_video.append(video)
-    for i in new_video:
-      if i not in self.videos:
-        self.videos.append(video)
-        
-    
+
+    def __init__(self):
+        #self.users_basa = []
+        self.videos = []
+
+    #def __str__(self):
+        #return str(self.users_basa)
+
+    def __repr__(self):
+        return repr(self.videos)
+
+    def add(self, *video):
+        new_video = []
+        new_video.append(video)
+        for i in new_video:
+            if i not in self.videos:
+                self.videos.append(video)
+
+    def register(self, nickname, password, age):
+        new_user = []
+        new_user.append(nickname)
+        new_user.append(hash(password))
+        new_user.append(age)
+        self.users_basa.append(new_user)
+        count_name = 0
+        for index in self.users_basa:
+            if nickname in index:
+                count_name += 1
+        if count_name <= 1:
+            print(f"Регистрация прошла успешно. Здравствуйте {nickname}\n")
+        else:
+            print(f"Пользователь с ником {nickname} уже существует.\n")
+            self.users_basa.pop()
+
+    def log_in(self, nickname, password):
+        for index in self.users_basa:
+            if nickname in index and hash(password) in index:
+                print(f"Добро пожаловать {nickname}!\n")
+                break
+            elif nickname in index or hash(password) in index:
+                print("Неверный логин или пароль\n")
+                break
+            else:
+                print("Такого пользователя нет.\n")
+
+    def log_out(self):
+        exit()
+
+
 ur = UrTube()
 ur1 = UrTube()
 
@@ -31,11 +70,32 @@ vid3 = ["Глубина", 9, False]
 vi1 = Video("Дедпул", 12, True)
 vi2 = Video("Звездные войны", 15, False)
 vi3 = Video("Неудержимые", 14, False)
- 
+
 ur.add(vid1, vid2, vid3)
 ur1.add(vi1, vi2, vi3)
 print(ur)
 print(ur1)
+
+curent_user = False
+
+while True:
+    choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
+    if choice == 2:
+        ur.register(nickname := input("Введите ник: "), password := input("Введите пароль: "),
+                    input("Введите возраст: "))
+        print(f"{ur}\n")
+        continue
+    elif choice == 1:
+        ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
+        curent_user = True
+        while curent_user:
+            window = int(input("Выберите действие:\n1 - Поиск видео\n2 - Выход из аккаунта\n"))
+            if window == 1:
+                print("Названия видео\n")
+            elif window == 2:
+                continue
+    elif choice == 3:
+        exit()
   
     
     
