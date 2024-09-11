@@ -1,52 +1,70 @@
+from time import sleep
 
 class Video:
-
+    
     def __init__(self, title, duration, adult_mode):
         self.title = title
         self.duration = duration
         self.adult_mode = adult_mode
-
+        
     def __repr__(self):
         return f"{self.title}, {self.duration}, {self.adult_mode}"
-
 
 class UrTube:
 
     def __init__(self):
-        #self.users_basa = []
+        self.users = []
         self.videos = []
+        self.watch = []
 
     #def __str__(self):
-        #return str(self.users_basa)
+        #return str(self.users)
 
     def __repr__(self):
         return repr(self.videos)
 
     def add(self, *video):
-        new_video = []
-        new_video.append(video)
-        for i in new_video:
-            if i not in self.videos:
-                self.videos.append(video)
-
+        for i in video:
+            count_name = 0
+            for j in video:
+                if i.title in j.title:
+                    count_name += 1
+            if count_name == 1:
+                self.videos.append(i)
+            elif count_name >= 2:
+                self.videos.append(i)
+                break
+                
+    def get_videos(self, search):
+        for i in self.videos:
+            count = 1
+            if search.upper() in i.title.upper():
+                print(f"Найденное видео: {count}) {i}\n")
+                count += 1
+                self.watch.append(i)
+        
+    def watch_video(self):
+        for i in self.watch:
+            print(i)
+        
     def register(self, nickname, password, age):
         new_user = []
         new_user.append(nickname)
         new_user.append(hash(password))
         new_user.append(age)
-        self.users_basa.append(new_user)
+        self.users.append(new_user)
         count_name = 0
-        for index in self.users_basa:
+        for index in self.users:
             if nickname in index:
                 count_name += 1
         if count_name <= 1:
             print(f"Регистрация прошла успешно. Здравствуйте {nickname}\n")
         else:
             print(f"Пользователь с ником {nickname} уже существует.\n")
-            self.users_basa.pop()
+            self.users.pop()
 
     def log_in(self, nickname, password):
-        for index in self.users_basa:
+        for index in self.users:
             if nickname in index and hash(password) in index:
                 print(f"Добро пожаловать {nickname}!\n")
                 break
@@ -58,23 +76,17 @@ class UrTube:
 
     def log_out(self):
         exit()
-
-
+        
 ur = UrTube()
-ur1 = UrTube()
 
-vid1 = ["Адреналин", 10, True]
-vid2 = ["Гарри Поттер", 14, False]
-vid3 = ["Глубина", 9, False]
+v1 = Video("Неустрашимый", 12, False)
+v2 = Video("Дедпул", 15, True)
+v3 = Video("Неуставший", 15, True)
+v4 = Video("Кингсман", 10, False)
+v5 = Video("Кингсман", 10, False)
 
-vi1 = Video("Дедпул", 12, True)
-vi2 = Video("Звездные войны", 15, False)
-vi3 = Video("Неудержимые", 14, False)
-
-ur.add(vid1, vid2, vid3)
-ur1.add(vi1, vi2, vi3)
-print(ur)
-print(ur1)
+ur.add(v1, v2, v3, v4,v5)
+#print(ur)
 
 curent_user = False
 
@@ -82,8 +94,8 @@ while True:
     choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
     if choice == 2:
         ur.register(nickname := input("Введите ник: "), password := input("Введите пароль: "),
-                    input("Введите возраст: "))
-        print(f"{ur}\n")
+            input("Введите возраст: "))
+        #print(f"{ur}\n")
         continue
     elif choice == 1:
         ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
@@ -91,11 +103,9 @@ while True:
         while curent_user:
             window = int(input("Выберите действие:\n1 - Поиск видео\n2 - Выход из аккаунта\n"))
             if window == 1:
-                print("Названия видео\n")
+                ur.get_videos(input("Введите название фильма: "))
+                ur.watch_video()
             elif window == 2:
-                continue
+                ur.log_out()
     elif choice == 3:
         exit()
-  
-    
-    
