@@ -2,70 +2,86 @@ from time import sleep
 
 class Video:
     
-    def __init__(self, title, duration, adult_mode):
+    def __init__(self, title, duration, time_now = 0, adult_mode = False):
         self.title = title
         self.duration = duration
+        self.time_now = time_now
         self.adult_mode = adult_mode
         
+    def __str__(self):
+        return self.title
+        
+    def __eq__(self, other):
+        return self.title == other.title
+        
     def __repr__(self):
-        return f"{self.title}, {self.duration}, {self.adult_mode}"
+        return self.title
+        
+class User:
+    def __init__(self, nickname, password, age):
+        self.nickname = nickname
+        self.password = hash(password)
+        self.age = age
+        
+    def __str__(self):
+        return self.nickname
+        
+    def __eq__(self, other):
+        return self.nickname == other.nickname
+        
+    def get_info(self):
+        return self.nickname, self.password
 
 class UrTube:
 
     def __init__(self):
         self.users = []
         self.videos = []
-        self.watch = []
-
-    #def __str__(self):
-        #return str(self.users)
-
+        self.curent_user = None
+        
     def __repr__(self):
         return repr(self.videos)
-
-    def add(self, *video):
-        for i in video:
-            count_name = 0
-            for j in video:
-                if i.title in j.title:
-                    count_name += 1
-            if count_name == 1:
-                self.videos.append(i)
-            elif count_name >= 2:
-                self.videos.append(i)
-                break
+        
+    def add(self, *videos):
+        for video in videos:
+            for vi in videos:
+                if video.title not in vi.title:
+                    self.videos.append(video)
                 
     def get_videos(self, search):
         for i in self.videos:
-            count = 1
             if search.upper() in i.title.upper():
-                print(f"Найденное видео: {count}) {i}\n")
-                count += 1
-                self.watch.append(i)
+                print(f"Найденное видео: {i}\n")
         
-    def watch_video(self):
-        for i in self.watch:
-            print(i)
+    def watch_video(self, title):
+        if self.current_user is None:
+            print('Войдите в аккаунт, что бы смотреть видео')
+            return
+        for video in slef.videos:
+            if title == video.title:
+                if video.adult_mode and self.curent_user.age >= 18:
+                    while video.time_now < video.duration:
+                        video.time_now += 1
+                        print(video.time_now)
+                        sleep(1)
+                    video.time_now = 0
+                    print("Конц видео")
+                else:
+                    print("Вам нет 18")
+                    break
         
-    def register(self, nickname, password, age):
-        new_user = []
-        new_user.append(nickname)
-        new_user.append(hash(password))
-        new_user.append(age)
-        self.users.append(new_user)
-        count_name = 0
-        for index in self.users:
-            if nickname in index:
-                count_name += 1
-        if count_name <= 1:
-            print(f"Регистрация прошла успешно. Здравствуйте {nickname}\n")
-        else:
-            print(f"Пользователь с ником {nickname} уже существует.\n")
-            self.users.pop()
+    def register(self, *users):
+        for user in users:
+            if user.nickname not in self.users:
+                self.users.append(user.nickname)
+                print(f"Регистрация прошла успешно. Здравствуйте {user.nickname}.\n")
+            else:
+                print(f"Пользователь с ником {user.nickname} уже существует.\n")
 
     def log_in(self, nickname, password):
-        for index in self.users:
-            if nickname in index and hash(password) in index:
+        for user in self.users:
+            if nickname == user and hash(password) == user.password:
+                self.current_user == True
                 print(f"Добро пожаловать {nickname}!\n")
                 break
             elif nickname in index or hash(password) in index:
@@ -79,33 +95,39 @@ class UrTube:
         
 ur = UrTube()
 
-v1 = Video("Неустрашимый", 12, False)
+v1 = Video("Неустрашимый", 12)
 v2 = Video("Дедпул", 15, True)
 v3 = Video("Неуставший", 15, True)
-v4 = Video("Кингсман", 10, False)
-v5 = Video("Кингсман", 10, False)
-
+v4 = Video("Кингсман", 10)
+v5 = Video("Кингсман", 10)
 ur.add(v1, v2, v3, v4,v5)
-#print(ur)
+print(f"{ur}\n")
 
-curent_user = False
+us1 = User("Коля", 111, 18)
+us2 = User("Гена", 222, 16)
+us3 = User("Коля", 333, 33)
+ur.register(us1, us2, us3)
 
-while True:
-    choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
-    if choice == 2:
-        ur.register(nickname := input("Введите ник: "), password := input("Введите пароль: "),
-            input("Введите возраст: "))
-        #print(f"{ur}\n")
-        continue
-    elif choice == 1:
-        ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
-        curent_user = True
-        while curent_user:
-            window = int(input("Выберите действие:\n1 - Поиск видео\n2 - Выход из аккаунта\n"))
-            if window == 1:
-                ur.get_videos(input("Введите название фильма: "))
-                ur.watch_video()
-            elif window == 2:
-                ur.log_out()
-    elif choice == 3:
-        exit()
+ur.log_in("Коля", 111)
+
+
+
+#while True:
+#    choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
+#    if choice == 2:
+#        ur.register(nickname := input("Введите ник: "), password := input("Введите пароль: "),
+#            input("Введите возраст: "))
+#        #print(f"{ur}\n")
+#        continue
+#    elif choice == 1:
+#        ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
+#        curent_user = True
+#        while curent_user:
+#            window = int(input("Выберите действие:\n1 - Поиск видео\n2 - Выход из аккаунта\n"))
+#            if window == 1:
+#                ur.get_videos(input("Введите название фильма: "))
+#                ur.watch_video()
+#            elif window == 2:
+#                ur.log_out()
+#    elif choice == 3:
+#        exit()
