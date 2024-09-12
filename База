@@ -44,9 +44,8 @@ class UrTube:
         
     def add(self, *videos):
         for video in videos:
-            for vi in videos:
-                if video.title == vi.title:  #перепробовал все возможные варианты
-                    self.videos.append(video)
+            if video not in self.videos:
+                self.videos.append(video)
                 
     def get_videos(self, search):
         for i in self.videos:
@@ -72,16 +71,16 @@ class UrTube:
         
     def register(self, *users):
         for user in users:
-            if user.nickname not in self.users:
-                self.users.append(user.nickname)
+            if user not in self.users:
+                self.users.append(user)
                 print(f"Регистрация прошла успешно. Здравствуйте {user.nickname}.\n")
             else:
                 print(f"Пользователь с ником {user.nickname} уже существует.\n")
 
     def log_in(self, nickname, password):
         for user in self.users:
-            if nickname == user and hash(password) == user.password:
-                self.current_user == True
+            if nickname == user.nickname and hash(password) == user.password:
+                self.curent_user == True
                 print(f"Добро пожаловать {nickname}!\n")
                 break
             elif nickname in index or hash(password) in index:
@@ -108,8 +107,10 @@ us2 = User("Гена", 222, 16)
 us3 = User("Коля", 333, 33)
 ur.register(us1, us2, us3)
 
-ur.log_in("Коля", 111)
 
+
+ur.log_in("Коля", 111)
+ur.watch_video("Неустрашимый")
 
 
 #while True:
