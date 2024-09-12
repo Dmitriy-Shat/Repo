@@ -45,7 +45,7 @@ class UrTube:
     def add(self, *videos):
         for video in videos:
             for vi in videos:
-                if video.title not in vi.title:
+                if video.title == vi.title:  #перепробовал все возможные варианты
                     self.videos.append(video)
                 
     def get_videos(self, search):
