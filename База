@@ -2,11 +2,11 @@ from time import sleep
 
 class Video:
     
-    def __init__(self, title, duration, time_now = 0, adult_mode = False):
+    def __init__(self, title, duration, adult_mode = False, time_now = 0):
         self.title = title
         self.duration = duration
-        self.time_now = time_now
         self.adult_mode = adult_mode
+        self.time_now = time_now
         
     def __str__(self):
         return self.title
@@ -53,10 +53,10 @@ class UrTube:
                 print(f"Найденное видео: {i}\n")
         
     def watch_video(self, title):
-        if self.current_user is None:
+        if self.curent_user is None:
             print('Войдите в аккаунт, что бы смотреть видео')
             return
-        for video in slef.videos:
+        for video in self.videos:
             if title == video.title:
                 if video.adult_mode and self.curent_user.age >= 18:
                     while video.time_now < video.duration:
@@ -80,17 +80,17 @@ class UrTube:
     def log_in(self, nickname, password):
         for user in self.users:
             if nickname == user.nickname and hash(password) == user.password:
-                self.curent_user == True
+                self.curent_user = True
                 print(f"Добро пожаловать {nickname}!\n")
                 break
-            elif nickname in index or hash(password) in index:
+            elif nickname in user.nicknaem or hash(password) in user.password:
                 print("Неверный логин или пароль\n")
                 break
             else:
                 print("Такого пользователя нет.\n")
 
     def log_out(self):
-        exit()
+        self.curent_user = None
         
 ur = UrTube()
 
@@ -110,25 +110,4 @@ ur.register(us1, us2, us3)
 
 
 ur.log_in("Коля", 111)
-ur.watch_video("Неустрашимый")
-
-
-#while True:
-#    choice = int(input("Приветствую выберите действие:\n1 - Вход\n2 - Регистрация\n3 - Выход\n"))
-#    if choice == 2:
-#        ur.register(nickname := input("Введите ник: "), password := input("Введите пароль: "),
-#            input("Введите возраст: "))
-#        #print(f"{ur}\n")
-#        continue
-#    elif choice == 1:
-#        ur.log_in(nickname := input("Введите ник: "), password := input("Введите пароль: "))
-#        curent_user = True
-#        while curent_user:
-#            window = int(input("Выберите действие:\n1 - Поиск видео\n2 - Выход из аккаунта\n"))
-#            if window == 1:
-#                ur.get_videos(input("Введите название фильма: "))
-#                ur.watch_video()
-#            elif window == 2:
-#                ur.log_out()
-#    elif choice == 3:
-#        exit()
+ur.watch_video("Дедпул")
